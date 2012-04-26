@@ -1,0 +1,16 @@
+---
+nodes:
+  "/^webserver/":
+    status:
+      unchanged:
+        exec: echo "All good" > /tmp/%{node}.all_good
+      failed:
+        exec: 
+          - /bin/beep
+          - /usr/local/bin/some-custom-email-probably
+
+  "node.example.com":
+    status:
+      unchanged:
+        exec: /usr/local/bin/my-wonderful-command
+
