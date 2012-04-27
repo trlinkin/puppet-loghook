@@ -68,21 +68,23 @@ class Loghook
           # used case to support different actions in the future
           case action
           when "exec"
-            if data
+            [*data].each do |command|
+
+	      next if not command
 
               # we should check to make sure we can get the path of the command if it is not qualified
               # even if the command is fully qualified, we can run it through this
-              data = data.split(' ')
-              data[0] = Puppet::Util::which(data[0]) || data[0]
-              data = data.join(' ')
+              command = command.split(' ')
+              command[0] = Puppet::Util::which(command[0]) || command[0]
+              command = command.join(' ')
 
               # we allow hostname substitution for hosts that match the regex
-              data = data.gsub('%{host}', @host)
+              command = command.gsub('%{host}', @host)
 
               Puppet.info("Loghook executing exec hook for #{@host}")
 
               begin
-                Puppet::Util::execute(data)
+                Puppet::Util::execute(command)
               rescue Puppet::ExceptionFailure => e
                 Puppet.warning("Loghook could not execute exec hook for #{@host}: " + e.message)
               end
