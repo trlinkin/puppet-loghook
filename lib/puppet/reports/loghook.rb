@@ -30,7 +30,7 @@ class Loghook
     if not @conf['nodes']
       #log the fact the config is bullshit
       Puppet.warning('Loghook report processor has an invalid configuration')
-      return
+      return nil
     end
 
     
@@ -53,7 +53,7 @@ class Loghook
 
   def process_hooks ()
     # no matches were found it seems, return
-    return if @matches.empty?
+    return nil if @matches.empty?
 
 
     # lets cycle through our found matches
@@ -68,6 +68,8 @@ class Loghook
           # used case to support different actions in the future
           case action
           when "exec"
+
+            # allow multiple execs to be run for a particular status
             [*data].each do |command|
 
 	      next if not command

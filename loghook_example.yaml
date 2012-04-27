@@ -3,7 +3,7 @@ nodes:
   "/^webserver/":
     status:
       unchanged:
-        exec: echo "All good" > /tmp/%{node}.all_good
+        exec: echo "All good" > /tmp/%{host}.all_good
       failed:
         exec: 
           - /bin/beep
